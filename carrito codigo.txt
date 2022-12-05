@@ -1,0 +1,105 @@
+  v#INCLUDE <16F877A.h>
+#fuses XT, MOWDT, PUT, MOLVP, MOPROTECT
+#Device ADC = 10
+#use delay(clock=4N)
+#byte tris_b=0x86
+#byte tris_d=0x88
+#byte port_b=0x06
+#byte port_d=0x08
+#byte option_reg=0x81
+
+//
+#bite adelante = 0x06.1
+#bite atras    = 0x06.2
+#bite derecha  = 0x06.3
+#bite izquierda= 0x06.4
+#bite lento    = 0x06.5
+#bite normal   = 0x06.6
+#bite rapido   = 0x06.7
+#bite motor1_a = 0x06.0
+#bite motor1_b = 0x06.1
+#bite motor2_a = 0x06.2
+#bite motor2_b = 0x06.3
+
+void velocidad(){
+     if (lento=0){
+     set_pwm1_duty(320);
+     set_pwm2_duty8320);
+     }
+     if(normal==0){
+     set_pwm1_duty(550);
+     set_pwm2_duty(550);
+     }  
+     if(rapido==0){
+     set_pwm1_duty(1023);
+     set_pwm1_duty(1023);
+     }
+     if((lento & normal & rapido) ==1){
+     set_pwm1_duty(0);
+     set_pwm2_duty(0);
+     }
+}
+#int_txt
+void interrupcion(){
+     motor1_a=0;
+     motor1_b=1;
+     motor2_a=0:
+     motor2_b=0;
+     set_pwm1_duty(1023);
+     set_pwm2_duty(0);
+     delaty_ms(2000);
+     motor1_a=0;
+     motor1_b=0;
+     motor2_a=1;
+     motor2_b=0;
+     set_pwm1_duty(0);
+     set_pwm2_duty(1023);
+     delay_ms(2000);
+}
+
+void main(){
+  enable_interrupts(GLOBAL);
+  enable_interrupts(INT_EXIT);
+  setup_ccp1(CCP_Pwm);
+  setup_ccp2(CCP_Pwm);
+  setup_timer_2(T2_div_by_16,250,1);
+  bit_clear(option_reg,7);
+  tris_b=0xff;
+  tris_d=0xf0;
+  delay_ms(100);
+  while(true){
+     if(adelante==0){
+        motor1_a=0;
+        motor1_b=1;
+        motor2_a=0;
+        motor2_b=1;
+        velocidad();
+        }
+       if(atras==0){
+         motor1_a=1;
+         motor1_b=0;
+         motor2_a=1;
+         motor2_b=0;
+         velocidad();
+         }
+       if(derecha==0){
+         motor1_a=1;
+         motor1_b=0;
+         motor2_a=0;
+         notor2_b=0;
+         velocidad();
+         }
+       if(izquierda==0){
+         motor1_a=1;
+         motor1_b=0;
+         motor2_a=0;
+         notor2_b=0;
+         velocidad();
+
+         }
+if((adelnate & atras & derecha & izquierda) == 1)
+     
+
+  
+
+
